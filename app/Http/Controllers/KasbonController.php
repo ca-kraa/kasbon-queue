@@ -84,4 +84,36 @@ class KasbonController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan saat menambahkan data kasbon'], 500);
         }
     }
+
+    public function setujuiKasbon($id)
+    {
+        try {
+            $kasbon = Kasbon::findOrFail($id);
+
+            if ($kasbon->tanggal_disetujui !== null) {
+                return response()->json(['message' => 'Kasbon dengan ID tersebut sudah disetujui'], 400);
+            }
+
+            $kasbon->tanggal_disetujui = now();
+            $kasbon->save();
+
+            return response()->json(['message' => 'Kasbon berhasil disetujui', 'data' => $kasbon]);
+        } catch (\Exception $e) {
+            Log::error('Error approving kasbon: ' . $e->getMessage());
+            return response()->json(['message' => 'Terjadi kesalahan saat menyetujui kasbon'], 500);
+        }
+    }
+
+    public function setujuiMasal()
+    {
+        try {
+            $totalPengajuan = $this->kasbonRepository->setujuiMasal();
+
+            return response()->json(['message' => 'Berhasil menyetujui kasbon masal', 'total' => $totalPengajuan]);
+        } catch (\Exception $e) {
+            Log::error('Error setujui masal kasbon: ' . $e->getMessage());
+
+            return response()->json(['message' => 'Terjadi kesalahan saat menyetujui kasbon masal'], 500);
+        }
+    }
 }
