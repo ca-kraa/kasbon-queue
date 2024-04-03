@@ -23,11 +23,12 @@ class KasbonController extends Controller
         $kasbons = $this->kasbonRepository->all();
 
         $kasbons = $kasbons->map(function ($kasbon) {
-            $tanggalDisetujui = $kasbon->tanggal_disetujui === null ? 1 : $kasbon->tanggal_disetujui;
+            $tanggal_diajukan = \Carbon\Carbon::parse($kasbon->tanggal_diajukan)->format('Y-M');
+            $tanggal_disetujui = $kasbon->tanggal_disetujui === null ? 1 : \Carbon\Carbon::parse($kasbon->tanggal_disetujui)->format('Y-M');
 
             return [
-                'tanggal_diajukan' => $kasbon->tanggal_diajukan,
-                'tanggal_disetujui' => $tanggalDisetujui,
+                'tanggal_diajukan' => $tanggal_diajukan,
+                'tanggal_disetujui' => $tanggal_disetujui,
                 'pegawai_id' => $kasbon->pegawai_id,
                 'total_kasbon' => $kasbon->total_kasbon,
             ];
@@ -35,6 +36,7 @@ class KasbonController extends Controller
 
         return response()->json($kasbons);
     }
+
 
     public function createKasbon(Request $request)
     {

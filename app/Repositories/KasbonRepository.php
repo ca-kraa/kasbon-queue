@@ -27,6 +27,16 @@ class KasbonRepository
 
     public function create(array $data)
     {
+        $pegawaiId = $data['pegawai_id'];
+
+        $kasbonBulanIni = Kasbon::where('pegawai_id', $pegawaiId)
+            ->whereMonth('created_at', now()->month)
+            ->count();
+
+        if ($kasbonBulanIni >= 3) {
+            throw new \Exception('Pegawai telah mencapai batas maksimal pengajuan kasbon dalam sebulan');
+        }
+
         return $this->model->create($data);
     }
 }
