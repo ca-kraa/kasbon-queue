@@ -37,7 +37,6 @@ class KasbonController extends Controller
         return response()->json($kasbons);
     }
 
-
     public function createKasbon(Request $request)
     {
         try {
