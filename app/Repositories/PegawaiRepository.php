@@ -6,14 +6,20 @@ use App\Models\Pegawai;
 
 class PegawaiRepository
 {
-    // public function getAll()
-    // {
-    //     return Pegawai::all();
-    // }
+    protected $model;
 
-    public function indexPegawai()
+    public function __construct(Pegawai $model)
     {
-        $pegawai = Pegawai::all();
-        return $pegawai->toJson();
+        $this->model = $model;
+    }
+
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function all()
+    {
+        return $this->model->all();
     }
 }

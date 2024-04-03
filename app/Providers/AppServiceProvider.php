@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Pegawai;
 use App\Repositories\PegawaiRepository;
+use App\Repositories\PegawaiRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,9 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(PegawaiRepository::class, function ($app) {
-            return new PegawaiRepository();
-        });
+        $this->app->bind(
+            PegawaiRepositoryInterface::class,
+            PegawaiRepository::class
+        );
     }
 
     /**

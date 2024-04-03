@@ -1,9 +1,7 @@
 <?php
 
-use App\Jobs\indexPegawai;
-use App\Repositories\PegawaiRepository;
+use App\Http\Controllers\PegawaiController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -11,4 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/pegawai', [PegawaiRepository::class, 'indexPegawai']);
+Route::get('/pegawai', [PegawaiController::class, 'indexPegawai']);
+Route::post('/create-pegawai', [PegawaiController::class, 'createPegawai']);
