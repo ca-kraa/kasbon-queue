@@ -31,10 +31,10 @@ class indexPegawai implements ShouldQueue
      */
     public function handle(): void
     {
-        $pegawai = $this->pegawaiRepository->getAll();
+        // $pegawai = $this->pegawaiRepository->getAll();
 
-        foreach ($pegawai as $p) {
-            Log::info($p);
-        }
+        // foreach ($pegawai as $p) {
+        //     Log::info($p);
+        // }
     }
 }

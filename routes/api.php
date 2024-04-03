@@ -10,11 +10,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/pegawai', function () {
 
-    indexPegawai::dispatch(new PegawaiRepository());
-    $pegawaiRepository = new PegawaiRepository();
-    $pegawai = $pegawaiRepository->getAll();
-
-    return response()->json(['data' => $pegawai]);
-});
+Route::get('/pegawai', [PegawaiRepository::class, 'getAll']);
