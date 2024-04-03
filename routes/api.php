@@ -11,4 +11,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/pegawai', [PegawaiRepository::class, 'getAll']);
+Route::get('/pegawai', [PegawaiRepository::class, 'indexPegawai']);

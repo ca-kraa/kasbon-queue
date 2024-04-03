@@ -11,7 +11,7 @@ class PegawaiRepository
     //     return Pegawai::all();
     // }
 
-    public function getAll()
+    public function indexPegawai()
     {
         $pegawai = Pegawai::all();
         return $pegawai->toJson();
