@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Pegawai;
 use App\Repositories\PegawaiRepository;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-
-
 
 class PegawaiController extends Controller
 {
@@ -19,25 +18,26 @@ class PegawaiController extends Controller
         $this->pegawaiRepository = $pegawaiRepository;
     }
 
-    public function indexPegawai()
+    public function indexPegawai($page)
     {
-        $pegawais = $this->pegawaiRepository->all();
-
+        $perPage = 5; 
+    
+        $pegawais = Pegawai::paginate($perPage, ['*'], 'page', $page);
+    
         $pegawais = $pegawais->map(function ($pegawai) {
             $nama = strtoupper(explode(' ', $pegawai->nama)[0]);
             $tanggal_masuk = date('d/m/Y', strtotime($pegawai->tanggal_masuk));
             $total_gaji = number_format($pegawai->total_gaji, 0, ',', '.');
-
+    
             return [
                 'nama' => $nama,
                 'tanggal_masuk' => $tanggal_masuk,
                 'total_gaji' => $total_gaji
             ];
         });
-
-        return response()->json($pegawais);
+            return response()->json($pegawais);
     }
-
+    
     public function createPegawai(Request $request)
     {
         try {

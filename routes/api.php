@@ -9,5 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/pegawai', [PegawaiController::class, 'indexPegawai']);
+Route::get('/pegawai/{page}', [PegawaiController::class, 'indexPegawai']);
 Route::post('/create-pegawai', [PegawaiController::class, 'createPegawai']);

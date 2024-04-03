@@ -22,4 +22,9 @@ class PegawaiRepository
     {
         return $this->model->all();
     }
+
+    public function paginate($perPage)
+    {
+        return $this->model->paginate($perPage);
+    }
 }
