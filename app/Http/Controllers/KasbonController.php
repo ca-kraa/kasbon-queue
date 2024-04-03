@@ -16,26 +16,7 @@ class KasbonController extends Controller
 
     public function indexKasbon(Request $request)
     {
-        $query = $this->kasbonRepository->query();
-
-        // Filter berdasarkan bulan
-        if ($request->has('bulan')) {
-            $bulan = $request->bulan;
-            $query->whereRaw("DATE_FORMAT(tanggal_diajukan, '%Y-%m') = ?", [$bulan]);
-        }
-
-        // Filter berdasarkan status persetujuan
-        if ($request->has('belum_disetujui')) {
-            $belumDisetujui = $request->belum_disetujui;
-            $query->where('status_persetujuan', $belumDisetujui);
-        }
-
-        // Filter berdasarkan tanggal disetujui
-        if ($request->has('tanggal_disetujui')) {
-            $query->whereNull('tanggal_disetujui');
-        }
-
-        $kasbons = $query->get();
+        $kasbons = $this->kasbonRepository->all();
 
         return response()->json($kasbons);
     }
