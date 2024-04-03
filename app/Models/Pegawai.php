@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Pegawai extends Model
 {
 
-    protected $fillable = ['tanggal_diajukan', 'tanggal_disetujui', 'pegawai_id', 'total_kasbon'];
+    protected $fillable = ['nama', 'tanggal_masuk', 'total_gaji'];
+
 }

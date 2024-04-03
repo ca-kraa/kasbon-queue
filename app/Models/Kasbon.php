@@ -9,5 +9,5 @@ class Kasbon extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'tanggal_masuk', 'total_gaji'];
+    protected $fillable = ['tanggal_diajukan', 'tanggal_disetujui', 'pegawai_id', 'total_kasbon'];
 }

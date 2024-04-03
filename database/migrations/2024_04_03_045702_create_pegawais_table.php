@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_diajukan');
-            $table->date('tanggal_disetujui')->nullable();
-            $table->integer('pegawai_id');
-            $table->integer('total_kasbon');
+            $table->string('nama', 10);
+            $table->date('tanggal_masuk');
+            $table->integer('total_gaji');
             $table->timestamps();
         });
     }
