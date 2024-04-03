@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Pegawai;
+use App\Repositories\PegawaiRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,16 +14,16 @@ class indexPegawai implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $pegawaiRepository;
+
     /**
      * Create a new job instance.
+     *
+     * @param PegawaiRepository $pegawaiRepository
      */
-    public function __construct()
+    public function __construct(PegawaiRepository $pegawaiRepository)
     {
-        $pegawai = Pegawai::all();
-
-        foreach ($pegawai as $p) {
-            Log::info($p);
-        }
+        $this->pegawaiRepository = $pegawaiRepository;
     }
 
     /**
@@ -31,6 +31,10 @@ class indexPegawai implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        $pegawai = $this->pegawaiRepository->getAll();
+
+        foreach ($pegawai as $p) {
+            Log::info($p);
+        }
     }
 }
