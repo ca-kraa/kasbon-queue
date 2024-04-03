@@ -19,7 +19,7 @@
 4. Jalankan Worker Queue
 
     ```php
-    php artisan queue:work --queue=setujui-kasbon
+    php artisan app:setujui-kasbon
     ```
 
 5. Akses API

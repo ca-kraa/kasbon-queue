@@ -72,6 +72,13 @@ return [
             'after_commit' => false,
         ],
 
+        'setujui-kasbon' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'setujui-kasbon',
+            'retry_after' => 90,
+        ],
+
     ],
 
     /*
