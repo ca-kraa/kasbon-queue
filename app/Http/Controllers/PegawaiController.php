@@ -44,7 +44,7 @@ class PegawaiController extends Controller
             $request->validate([
                 'nama' => 'required|max:10|unique:pegawais',
                 'tanggal_masuk' => 'required|date|before_or_equal:today',
-                'total_gaji' => 'required|numeric',
+                'total_gaji' => 'required|numeric|between:4000000,10000000',
             ]);
 
             $data = [
