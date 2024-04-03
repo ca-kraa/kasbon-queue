@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Pegawai;
+use App\Repositories\KasbonRepository;
 use App\Repositories\PegawaiRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            PegawaiRepository::class
+            PegawaiRepository::class,
+            KasbonRepository::class
         );
     }
 
