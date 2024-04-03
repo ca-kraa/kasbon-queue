@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kasbon;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\KasbonRepository;
+use Illuminate\Validation\ValidationException;
 
 class KasbonController extends Controller
 {
@@ -18,6 +22,65 @@ class KasbonController extends Controller
     {
         $kasbons = $this->kasbonRepository->all();
 
+        $kasbons = $kasbons->map(function ($kasbon) {
+            $tanggalDisetujui = $kasbon->tanggal_disetujui === null ? 1 : $kasbon->tanggal_disetujui;
+
+            return [
+                'tanggal_diajukan' => $kasbon->tanggal_diajukan,
+                'tanggal_disetujui' => $tanggalDisetujui,
+                'pegawai_id' => $kasbon->pegawai_id,
+                'total_kasbon' => $kasbon->total_kasbon,
+            ];
+        });
+
         return response()->json($kasbons);
+    }
+
+    public function createKasbon(Request $request)
+    {
+        try {
+            $request->validate([
+                'pegawai_id' => [
+                    'required',
+                    'numeric',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $pegawai = Pegawai::find($value);
+                        if (!$pegawai) {
+                            return $fail('Pegawai tidak ditemukan.');
+                        }
+
+                        $totalKasbon = $request->total_kasbon;
+                        $totalGaji = $pegawai->total_gaji;
+                        if ($totalKasbon > ($totalGaji * 0.5)) {
+                            return $fail('Total kasbon tidak boleh lebih dari 50% dari total gaji pegawai.');
+                        }
+                    }
+                ],
+                'total_kasbon' => 'required|numeric',
+            ]);
+
+            $data = [
+                'pegawai_id' => $request->pegawai_id,
+                'total_kasbon' => $request->total_kasbon,
+            ];
+
+            $this->kasbonRepository->create($data);
+
+            $newKasbon = Kasbon::latest()->first();
+
+            return response()->json(['message' => 'Data kasbon berhasil ditambahkan', 'data' => $newKasbon]);
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->toArray();
+            $errorMessage = [];
+            foreach ($errors as $key => $value) {
+                $errorMessage[] = implode(', ', $value);
+            }
+
+            return response()->json(['message' => 'Terjadi kesalahan saat validasi data', 'errors' => $errorMessage], 422);
+        } catch (\Exception $e) {
+            Log::error('Error creating kasbon: ' . $e->getMessage());
+
+            return response()->json(['message' => 'Terjadi kesalahan saat menambahkan data kasbon'], 500);
+        }
     }
 }

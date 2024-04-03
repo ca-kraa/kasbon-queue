@@ -24,4 +24,9 @@ class KasbonRepository
     {
         return $this->model->query();
     }
+
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
 }

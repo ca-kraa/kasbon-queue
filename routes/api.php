@@ -15,3 +15,4 @@ Route::post('/create-pegawai', [PegawaiController::class, 'createPegawai']);
 
 // Kasbon
 Route::get('/kasbon', [KasbonController::class, 'indexKasbon']);
+Route::post('/create-kasbon', [KasbonController::class, 'createKasbon']);
